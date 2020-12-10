@@ -29,8 +29,8 @@ class Calib:
         t0 = -cam_pos[2] / (ray0)[0][2]
         t1 = -cam_pos[2] / (ray1)[0][2]
 
-        P0 = cam_pos + t0*ray0
-        P1 = cam_pos + t1*ray1
+        P0 = cam_pos + (t0*ray0).T
+        P1 = cam_pos + (t1*ray1).T
 
         P0_cam = (R @ P0) + T
         P1_cam = (R @ P1) + T
