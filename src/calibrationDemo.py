@@ -20,6 +20,8 @@ checkerboard = (6, 8) #number of internal corners on checkerboard
 #Intrinsic calibration parameters
 dX = 558.8 #calibration plane length in x direction
 dY = 303.2125 #calibration plane length in y direction
+# dX = 10.8 #calibration plane length in x direction
+# dY = 16.2 #calibration plane length in y direction
 dW2 = (8, 8) #window size finding ground plane corners
 
 if useLowRes:
@@ -28,6 +30,7 @@ if useLowRes:
 
 #Part 1: Intrinsic Calibration
 images = glob.glob(os.path.join(baseDir, calName, "*"+image_ext))
+print(os.path.join(baseDir, calName, "*"+image_ext))
 mtx, dist = computeIntrinsic(images, checkerboard, dW1)
 #write out intrinsic calibration parameters
 np.savez(os.path.join(baseDir, calName, "intrinsic_calib.npz"), mtx=mtx, dist=dist)

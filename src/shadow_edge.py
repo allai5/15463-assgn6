@@ -46,10 +46,12 @@ class ShadowDetector:
             vs = locs[1]
 
             for j in range(len(us)):
-                shadow_img[us[j]][vs[j]] = int(i / 5.1875)
+                # shadow_img[us[j]][vs[j]] = int(i / 5.1875)
+                shadow_img[us[j]][vs[j]] = i
 
-        plt.imshow(shadow_img, cmap='jet')
-        plt.show()
+        # plt.imshow(int(shadow_img / 5.1875), cmap='jet')
+        # plt.show()
+        return shadow_img
 
     def spatial_shadow_plane(self, img, srow, erow, scol, ecol):
         assert(srow < erow and scol < ecol)
@@ -101,8 +103,16 @@ class ShadowDetector:
         Avr = np.vstack([vrv,np.ones(len(vrv))]).T
         vrm, vrb = np.linalg.lstsq(Avr, vu, rcond=None)[0]
 
-        # plt.plot(hlv, hu, 'bo')
-        # plt.plot(vlv, vu, 'ro')
+        h_end = (450.0 - hlb)/hlm
+        v_end = (450.0 - vlb)/vlm
+        hlv = np.append(hlv, h_end)
+        vlv = np.append(vlv, v_end)
+
+        # h_end = (450.0 - hrb)/hrm
+        # v_end = (450.0 - vrb)/vrm
+        # hrv = np.append(hrv, h_end)
+        # vrv = np.append(vrv, v_end)
+
         # plt.plot(hlv, hlm*hlv + hlb, linewidth=2)
         # plt.plot(vlv, vlm*vlv + vlb, linewidth=2)
         # plt.title(frame_path)
@@ -110,5 +120,6 @@ class ShadowDetector:
         # plt.show()
 
         return hlv, hlm, hlb, vlv, vlm, vlb
+        # return hrv, hrm, hrb, vrv, vrm, vrb
 
 
