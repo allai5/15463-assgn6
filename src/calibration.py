@@ -7,15 +7,11 @@ class Calib:
         edata = np.load(epath)
 
         self.mtx    = idata['mtx']
-        self.dist   = idata['dist'] # 5 x 1
+        self.dist   = idata['dist']
         self.tvec_h = edata['tvec_h']
         self.tvec_v = edata['tvec_v']
         self.rmat_h = edata['rmat_h']
         self.rmat_v = edata['rmat_v']
-
-        # print("H Translation:\n", self.tvec_h)
-        # print("V Translation:\n", self.tvec_v)
-
 
     def plane_pts(self, p0, p1, isH):
         T = self.tvec_h if isH else self.tvec_v
@@ -34,20 +30,11 @@ class Calib:
         t0 = -cam_pos[2] / ray0[2]
         t1 = -cam_pos[2] / ray1[2]
 
-
-        # print(cam_pos)
-        # print(t0 * ray0)
-        # print(cam_pos[2])
-        # print(t0)
         P0 = cam_pos + (t0*ray0)
         P1 = cam_pos + (t1*ray1)
 
         P0_cam = (np.linalg.inv(R.T) @ P0) + T
         P1_cam = (np.linalg.inv(R.T) @ P1) + T
 
-
         return P0_cam, P1_cam
-
-
-
 
