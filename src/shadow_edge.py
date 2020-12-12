@@ -4,20 +4,23 @@ from skimage import io
 from skimage.color import rgb2gray
 import matplotlib.pyplot as plt
 
-# frog_dir = "../data/frog/v1-lr/"
 # frame_shape = (384,512)
-frog_dir = "../data/frog/v1/"
-frame_shape = (768,1024)
 class ShadowDetector:
-    def __init__(self, folder, num_frames):
+    def __init__(self, folder, num_frames, frame_shape, col_v, row_v, col_h,
+                 row_h, C, thresh):
         self.imax = np.zeros((frame_shape))
         self.imin = np.ones((frame_shape))
         self.ishadow = np.zeros((frame_shape))
         self.dir = folder
         self.num_frames = num_frames
-        self.thresh = 60.0/255.0
+        self.thresh = thresh
         self.rows = frame_shape[0]
         self.cols = frame_shape[1]
+        self.col_v = col_v
+        self.row_v = row_v
+        self.col_h = col_h
+        self.row_h = row_h
+        self.c = C
 
     def observe_video(self):
         for i in range(1, self.num_frames + 1):
@@ -91,13 +94,13 @@ class ShadowDetector:
         rv = np.array(rv)
         return lv, rv, u
 
-    def spatial_shadow(self, frame_path, i):
+    def spatial_shadow(self, frame_path, i, plane_y):
         img = rgb2gray(io.imread(frame_path))
 
-        col_v = [225, 820]
-        row_v = [0, 325]
-        col_h = [190, 840]
-        row_h = [655, 767]
+        col_v = self.col_v
+        col_h = self.col_h
+        row_v = self.row_v
+        row_h = self.row_h
 
         hlv, hrv, hu = self.spatial_shadow_line(img, row_h[0], row_h[1],
                                                       col_h[0], col_h[1])
@@ -116,18 +119,28 @@ class ShadowDetector:
         Avr = np.vstack([vrv,np.ones(len(vrv))]).T
         vrm, vrb = np.linalg.lstsq(Avr, vu, rcond=None)[0]
 
-        h_end = (450.0 - hlb)/hlm
-        v_end = (450.0 - vlb)/vlm
+        h_end = (plane_y - hlb)/hlm
+        v_end = (plane_y - vlb)/vlm
+
         hlv = np.append(hlv, h_end)
         vlv = np.append(vlv, v_end)
+        hu = np.append(hu, hlm*h_end + hlb)
+        vu = np.append(vu, vlm*v_end + vlb)
+        # plt.scatter(hlv, hu)
+        # plt.scatter(vlv, vu)
+
+        # plt.plot(hlv, hlm*hlv + hlb, linewidth=4)
+        # plt.plot(vlv, vlm*vlv + vlb, linewidth=4)
+        # plt.imshow(img)
+        # plt.show()
 
         return hlv, hlm, hlb, vlv, vlm, vlb
 
-    def save_shadow_planes(self):
+    def save_shadow_planes(self, plane_y, sframe, eframe):
         savez_dict = dict()
-        for i in range(60, 141):
-            frame_path = dir_path + str(i).zfill(6) + ".jpg"
-            hlv, hlm, hlb, vlv, vlm, vlb = self.spatial_shadow(frame_path, i)
+        for i in range(sframe, eframe+1):
+            frame_path = self.dir + str(i).zfill(6) + ".jpg"
+            hlv, hlm, hlb, vlv, vlm, vlb = self.spatial_shadow(frame_path, i, plane_y)
             # 2 arbitrary points on
             x1, x2 = hlv[0], hlv[-1]
             y1, y2 = hlm*x1 + hlb, hlm*x2 + hlb
@@ -149,8 +162,8 @@ class ShadowDetector:
                 p3 = p4
                 p4 = tmp
 
-            P1, P2 = c.plane_pts(p1, p2, True)
-            P3, P4 = c.plane_pts(p3, p4, False)
+            P1, P2 = self.c.plane_pts(p1, p2, True)
+            P3, P4 = self.c.plane_pts(p3, p4, False)
 
             P1, P2, P3, P4 = np.squeeze(P1), np.squeeze(P2), np.squeeze(P3), np.squeeze(P4)
             np.savez("../data/plane_pts.npz", P1, P2, P3, P4)
