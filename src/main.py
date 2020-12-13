@@ -6,22 +6,22 @@ from cp_hw6 import pixel2ray, set_axes_equal
 import matplotlib.pyplot as plt
 import numpy as np
 
-# dir_path = "../data/frog/v1/"
-# ipath = "../data/calib/intrinsic_calib.npz"
-# epath = "../data/frog/v1/extrinsic_calib.npz"
-# ppath = "../data/plane.npz"
-# num_frames = 166
-# frame_shape = (768,1024)
-# sframe = 60
-# eframe = 140
-# scol, srow = 350, 350
-# col_span, row_span = 400, 245
-# col_v = [225, 820]
-# row_v = [0, 325]
-# col_h = [190, 840]
-# row_h = [655, 767]
-# plane_y = 450.0
-# thresh = 60.0/255.0
+dir_path = "../data/frog/v1/"
+ipath = "../data/calib/intrinsic_calib.npz"
+epath = "../data/frog/v1/extrinsic_calib.npz"
+ppath = "../data/plane.npz"
+num_frames = 166
+frame_shape = (768,1024)
+sframe = 60
+eframe = 140
+scol, srow = 350, 350
+col_span, row_span = 400, 245
+col_v = [225, 820]
+row_v = [0, 325]
+col_h = [190, 840]
+row_h = [655, 767]
+plane_y = 450.0
+thresh = 60.0/255.0
 
 # dir_path = "../data/cow2/"
 # ipath = "../data/mycalib2/intrinsic_calib.npz"
@@ -43,26 +43,26 @@ import numpy as np
 # plane_y = 440.0
 # thresh = 0.2
 
-dir_path = "../data/remote2/"
-ipath   = "../data/mycalib2/intrinsic_calib.npz"
-epath = "../data/remote2/extrinsic_calib.npz"
-ppath = "../data/plane.npz"
+# dir_path = "../data/remote2/"
+# ipath   = "../data/mycalib2/intrinsic_calib.npz"
+# epath = "../data/remote2/extrinsic_calib.npz"
+# ppath = "../data/plane.npz"
 
-num_frames = 290
-frame_shape = (675,1200)
-sframe = 190
-eframe = 265
+# num_frames = 290
+# frame_shape = (675,1200)
+# sframe = 190
+# eframe = 265
 
-col_v = [270, 775]
-row_v = [0, 450]
-col_h = [285, 805]
-row_h = [600, 674]
+# col_v = [270, 775]
+# row_v = [0, 450]
+# col_h = [285, 805]
+# row_h = [600, 674]
 
-# crop image parameters
-scol, srow = 450, 275
-col_span, row_span = 150, 140
-plane_y = 442.0
-thresh = 0.15
+# # crop image parameters
+# scol, srow = 450, 275
+# col_span, row_span = 150, 140
+# plane_y = 442.0
+# thresh = 0.15
 
 
 def view_planes():
@@ -154,16 +154,9 @@ def main():
 
         # set_axes_equal(ax)
         # frog axes
-        # ax.set_xlim3d(-300, 200)
-        # ax.set_ylim3d(-200, 100)
-        # ax.set_zlim3d(1400, 1800)
-
-        # cow axes
-        # ax.set_xlim3d(-30, 10)
-        # ax.set_ylim3d(70, 140)
-        # ax.set_zlim3d(1000, 1500)
-
-        # remote axes
+        ax.set_xlim3d(-300, 200)
+        ax.set_ylim3d(-200, 100)
+        ax.set_zlim3d(1400, 1800)
 
         ax.scatter(pts_x, pts_y, pts_z, c=colors, marker='.')
         plt.show()
