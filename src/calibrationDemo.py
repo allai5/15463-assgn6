@@ -7,13 +7,16 @@ import numpy as np
 
 #Input data locations
 baseDir = '../data' #data directory
+objName = 'remote2' #object name (should correspond to a dir in data)
+# objName = 'cow2' #object name (should correspond to a dir in data)
 # objName = 'remote' #object name (should correspond to a dir in data)
-objName = 'cow' #object name (should correspond to a dir in data)
+# objName = 'cow' #object name (should correspond to a dir in data)
 # objName = 'frog' #object name (should correspond to a dir in data)
 # seqName = 'v1' #sequence name (subdirectory of object)
 seqName = '' #sequence name (subdirectory of object)
 # calName = 'calib' #calibration sourse (also a dir in data)
-calName = 'mycalib/' #calibration sourse (also a dir in data)
+# calName = 'mycalib/' #calibration sourse (also a dir in data)
+calName = 'mycalib2/' #calibration sourse (also a dir in data)
 image_ext = 'jpg' #file extension for images
 useLowRes = False #enable lowres for debugging
 

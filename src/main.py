@@ -23,43 +23,45 @@ import numpy as np
 # plane_y = 450.0
 # thresh = 60.0/255.0
 
-# dir_path = "../data/cow/"
-# ipath = "../data/mycalib/intrinsic_calib.npz"
-# epath = "../data/cow/extrinsic_calib.npz"
+# dir_path = "../data/cow2/"
+# ipath = "../data/mycalib2/intrinsic_calib.npz"
+# epath = "../data/cow2/extrinsic_calib.npz"
 # ppath = "../data/plane.npz"
-# num_frames = 235
+# num_frames = 360
 # frame_shape = (675,1200)
-# sframe = 85
-# eframe = 225
-# col_v = [340, 760]
-# row_v = [0, 450]
-# col_h = [355, 780]
-# row_h = [585, 674]
-# scol, srow = 530, 480
-# col_span, row_span = 80, 105
-# plane_y = 450.0
-# thresh = 0.1
 
-dir_path = "../data/remote/"
-ipath   = "../data/mycalib/intrinsic_calib.npz"
-epath = "../data/remote/extrinsic_calib.npz"
+# sframe = 215
+# eframe = 300
+
+# col_v = [270, 775]
+# row_v = [0, 475]
+# col_h = [285, 805]
+# row_h = [600, 674]
+
+# scol, srow = 460, 475
+# col_span, row_span = 135, 125
+# plane_y = 440.0
+# thresh = 0.2
+
+dir_path = "../data/remote2/"
+ipath   = "../data/mycalib2/intrinsic_calib.npz"
+epath = "../data/remote2/extrinsic_calib.npz"
 ppath = "../data/plane.npz"
 
-num_frames = 260
+num_frames = 290
 frame_shape = (675,1200)
-sframe = 70
-eframe = 160
+sframe = 190
+eframe = 265
 
-col_v = [410, 870]
-row_v = [0, 340]
-col_h = [410, 870]
-row_h = [540, 674]
+col_v = [270, 775]
+row_v = [0, 450]
+col_h = [285, 805]
+row_h = [600, 674]
 
 # crop image parameters
-scol, srow = 580, 340
-col_span, row_span = 120, 200
-
-plane_y = 475.0
+scol, srow = 450, 275
+col_span, row_span = 150, 140
+plane_y = 442.0
 thresh = 0.15
 
 
@@ -111,7 +113,7 @@ def main():
         pts_x, pts_y, pts_z, colors = [], [], [], []
 
         for r in range(srow, srow+row_span+1):
-            # print(r)
+            print(r)
             for c in range(scol, scol+col_span+1):
                 frame_id = ts_img[r][c]
                 if (frame_id < sframe or frame_id > eframe):
@@ -150,18 +152,18 @@ def main():
         ax.set_ylabel('Y Label')
         ax.set_zlabel('Z Label')
 
-        set_axes_equal(ax)
+        # set_axes_equal(ax)
         # frog axes
         # ax.set_xlim3d(-300, 200)
         # ax.set_ylim3d(-200, 100)
         # ax.set_zlim3d(1400, 1800)
 
         # cow axes
-        ax.set_xlim3d(-30, 10)
-        ax.set_ylim3d(70, 140)
-        ax.set_zlim3d(1000, 1050)
+        # ax.set_xlim3d(-30, 10)
+        # ax.set_ylim3d(70, 140)
+        # ax.set_zlim3d(1000, 1500)
 
-        # cow axes
+        # remote axes
 
         ax.scatter(pts_x, pts_y, pts_z, c=colors, marker='.')
         plt.show()

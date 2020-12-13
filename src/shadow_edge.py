@@ -65,8 +65,8 @@ class ShadowDetector:
                 # shadow_img[us[j]][vs[j]] = int(t_interp / 5.1875)
             prev_img = img
 
-        # plt.imshow(shadow_img, cmap='jet')
-        # plt.show()
+        plt.imshow(shadow_img, cmap='jet')
+        plt.show()
         return shadow_img
 
     def spatial_shadow_line(self, img, srow, erow, scol, ecol):
@@ -80,9 +80,9 @@ class ShadowDetector:
             row = np.reshape(diff_img[r,scol:ecol], (1, ecol - scol))
             signs = np.sign(row)
             signchange = ((np.roll(signs, 1) - signs) != 0).astype(int)
-
             locs = np.where(signchange == 1)
-            # locs = np.where(row < 0)
+
+            locs = np.where(row < 0)
             if(len(locs[0]) == 0): continue
 
             locs_v = locs[1] + scol
@@ -131,6 +131,20 @@ class ShadowDetector:
 
         # plt.plot(hlv, hlm*hlv + hlb, linewidth=4)
         # plt.plot(vlv, vlm*vlv + vlb, linewidth=4)
+
+        # h_end = (plane_y - hrb)/hrm
+        # v_end = (plane_y - vrb)/vrm
+
+        # hrv = np.append(hrv, h_end)
+        # vrv = np.append(vrv, v_end)
+        # hu = np.append(hu, hrm*h_end + hrb)
+        # vu = np.append(vu, vrm*v_end + vrb)
+        # plt.scatter(hrv, hu)
+        # plt.scatter(vrv, vu)
+
+        # plt.plot(hrv, hrm*hrv + hrb, linewidth=4)
+        # plt.plot(vrv, vrm*vrv + vrb, linewidth=4)
+
         # plt.imshow(img)
         # plt.show()
 
